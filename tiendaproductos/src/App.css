@@ -10,8 +10,9 @@ body {
   padding-bottom: 5rem;
 }
 #otracosaloca {
-  color: red;
+  color: pink;
 }
 #cosaloca {
   margin: 0;
+  padding: 0%;
 }
