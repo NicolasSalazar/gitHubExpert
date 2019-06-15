@@ -5,9 +5,9 @@ class AgregarProducto extends Component {
   constructor () {
     super()
     this.state = {
-      Nombre: '',
-      Marca: '',
-      Precio: ''
+      nombre: '',
+      marca: '',
+      precio: ''
     }
     this.addProduct = this.addProduct.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -16,13 +16,22 @@ class AgregarProducto extends Component {
   async addProduct () {
     const response = await fetch('http://localhost:3030/newProduct', {
       method: 'POST',
-      body: JSON.stringify(this.state),
+      body: JSON.stringify({
+        Nombre: this.state.nombre,
+        Marca: this.state.marca,
+        Precio: this.state.precio
+      }),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     })
     if (response.ok) {
+      this.setState({
+        nombre: '',
+        marca: '',
+        precio: ''
+      })
       this.props.handleList()
     }
   }

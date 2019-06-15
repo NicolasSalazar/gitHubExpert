@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import Form from '../components/Form'
 
-function EditarProducto ({ product }) {
+function EditarProducto ({ product, handleEdit }) {
   const [nombre, setNombre] = useState('')
   const [marca, setMarca] = useState('')
   const [precio, setPrecio] = useState('')
@@ -29,8 +29,22 @@ function EditarProducto ({ product }) {
         break
     }
   }
-  const editProduct = () => {
-    console.log(nombre, marca, precio)
+  const editProduct = async () => {
+    const response = await fetch(`http://localhost:3030/productEdit/${product._id}`, {
+      method: 'PUT',
+      body: JSON.stringify({
+        Nombre: nombre,
+        Marca: marca,
+        Precio: precio
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    if (response.ok) {
+      handleEdit()
+    }
   }
   return (
     <div className='card mt-5 py-5'>

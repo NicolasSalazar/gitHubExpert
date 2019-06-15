@@ -13,25 +13,23 @@ function ListadoProds ({ products, detail, handleRemove, handleEdit }) {
         </thead>
         <tbody>
           {
-            products.map(product => {
-              return (
-                <tr key={product._id}>
-                  <td>{product.Nombre}</td>
-                  <td>{product.Marca}</td>
-                  <td>{product.Precio}</td>
-                  <td>
-                    <button onClick={handleRemove.bind(this, product._id)}>
-                      Delete
-                    </button>
-                    <button
-                      onClick={handleEdit.bind(this, product)}
-                    >
-                      { detail ? 'Crear' : 'Editar' }
-                    </button>
-                  </td>
-                </tr>
-              )
-            })
+            products.map(product => (
+              <tr key={product._id}>
+                <td>{product.Nombre}</td>
+                <td>{product.Marca}</td>
+                <td>{product.Precio}</td>
+                <td>
+                  <button onClick={handleRemove.bind(this, product._id)}>
+                    Delete
+                  </button>
+                  <button
+                    onClick={handleEdit.bind(this, product)}
+                  >
+                    { detail ? 'Crear' : 'Editar' }
+                  </button>
+                </td>
+              </tr>
+            ))
           }
         </tbody>
       </table>

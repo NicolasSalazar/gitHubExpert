@@ -51,6 +51,7 @@ class App extends Component {
       this.setState({
         detail: false
       })
+      this.fetchProduct()
     }
   }
   render () {
@@ -61,7 +62,7 @@ class App extends Component {
           <div className='col-xs-12 col-sm-12 col-md-6'>
             {
               this.state.detail
-                ? <EditarProducto product={this.state.productDetail} />
+                ? <EditarProducto product={this.state.productDetail} handleEdit={this.handleEdit} />
                 : <AgregarProducto handleList={this.fetchProduct} />
             }
           </div>
