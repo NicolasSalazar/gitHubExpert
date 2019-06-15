@@ -1,62 +1,82 @@
-import React, { Component } from 'react';
-import './App.css';
-import './assets/css/bootstrap.min.css';
-import Header from './components/Header';
-import AgregarProducto from './components/AgregarProducto';
-import ListadoProds from './components/ListadoProds';
+import React, { Component } from 'react'
+import './App.css'
+import './assets/css/bootstrap.min.css'
+import Header from './components/Header'
+import AgregarProducto from './screens/AgregarProducto'
+import EditarProducto from './screens/EditarProducto'
+import ListadoProds from './screens/ListadoProds'
 
 class App extends Component {
   constructor () {
     super()
     this.initialState = {
-      products: []
+      products: [],
+      detail: false,
+      productDetail: {}
     }
     this.state = this.initialState
     this.fetchProduct = this.fetchProduct.bind(this)
     this.handleRemove = this.handleRemove.bind(this)
     this.handleEdit = this.handleEdit.bind(this)
   }
-  componentDidMount() {
-    this.fetchProduct();
+  componentDidMount () {
+    this.fetchProduct()
   }
-  fetchProduct(ev) {
+  fetchProduct (ev) {
     fetch('http://localhost:3030/productsAll')
       .then(res => res.json())
       .then(data => {
         this.setState({ products: data })
-        console.log(this.state.products)
       })
   }
-  async handleRemove(id){
-    const response = await fetch(`http://localhost:3030/productDelete/${id}`,{
+  async handleRemove (id) {
+    const response = await fetch(`http://localhost:3030/productDelete/${id}`, {
       method: 'DELETE',
-      headers:{
+      headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     })
-    if(response.ok){
-      this.fetchProduct();
+    if (response.ok) {
+      this.fetchProduct()
     }
   }
-  handleEdit(){
-    console.log("Editar")
+  handleEdit (product) {
+    if (product) {
+      this.setState({
+        detail: true,
+        productDetail: product
+      })
+    } else {
+      this.setState({
+        detail: false
+      })
+    }
   }
-  render() {
+  render () {
     return (
       <div className='container'>
         <Header />
         <div className='row'>
           <div className='col-xs-12 col-sm-12 col-md-6'>
-            <AgregarProducto handleList={this.fetchProduct} />
+            {
+              this.state.detail
+                ? <EditarProducto product={this.state.productDetail} />
+                : <AgregarProducto handleList={this.fetchProduct} />
+            }
           </div>
           <div className='col-xs-12 col-sm-12 col-md-6'>
-            <ListadoProds products={this.state.products} handleRemove ={this.handleRemove} handleEdit={this.handleEdit}/>
+            <ListadoProds
+              detail={this.state.detail}
+              products={this.state.products}
+              handleRemove={this.handleRemove}
+              handleEdit={this.handleEdit}
+            />
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
