@@ -22,7 +22,7 @@ class App extends Component {
   componentDidMount () {
     this.fetchProduct()
   }
-  fetchProduct (ev) {
+  fetchProduct () {
     fetch('http://localhost:3030/productsAll')
       .then(res => res.json())
       .then(data => {
